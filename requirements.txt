@@ -1,0 +1,15 @@
+# Núcleo
+pandas>=2.1
+numpy>=1.26
+python-dotenv>=1.0
+
+# Aplicación web y gráficos
+streamlit>=1.40
+plotly>=5.20
+
+# Modelos de lenguaje (basta con instalar el del proveedor que uses)
+anthropic>=0.40
+openai>=1.40
+
+# Pruebas
+pytest>=8.0
