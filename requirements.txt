@@ -7,9 +7,8 @@ python-dotenv>=1.0
 streamlit>=1.40
 plotly>=5.20
 
-# Modelos de lenguaje (basta con instalar el del proveedor que uses)
+# Modelo de lenguaje: Claude (Anthropic)
 anthropic>=0.40
-openai>=1.40
 
 # Pruebas
 pytest>=8.0

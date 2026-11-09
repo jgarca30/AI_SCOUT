@@ -57,7 +57,7 @@ pip install -r requirements.txt
 copy .env.example .env
 ```
 
-Abre `.env` y pega tu clave de API (`ANTHROPIC_API_KEY` u `OPENAI_API_KEY`, según `LLM_PROVEEDOR`).
+Abre `.env` y pega tu clave de la API de Anthropic en `ANTHROPIC_API_KEY` (los agentes LLM usan Claude).
 Sin clave, la aplicación funciona igualmente en modo numérico.
 
 ## Uso
