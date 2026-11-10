@@ -7,8 +7,9 @@ python-dotenv>=1.0
 streamlit>=1.40
 plotly>=5.20
 
-# Modelo de lenguaje: Claude (Anthropic)
-anthropic>=0.40
+# Modelos de lenguaje (basta con el del proveedor que uses)
+anthropic>=0.40       # Claude
+google-genai>=1.0     # Gemini (nivel gratuito)
 
 # Pruebas
 pytest>=8.0

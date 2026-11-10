@@ -1,0 +1,23 @@
+# Secretos
+.env
+
+# Datos regenerables (python src/preparar_datos.py) y caché de respuestas LLM
+datos/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Archivos temporales de Word / Office
+~$*
+~WRL*.tmp
+
+# Archivos de salidas para powerbi
+salidas/
+
+# Configuracion de mi equipo
+.vscode/
+.claude/
