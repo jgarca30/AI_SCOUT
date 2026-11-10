@@ -1,0 +1,4 @@
+# Tabla manual de identidades. Tiene prioridad sobre la regla automática (nombre + año de nacimiento + nacionalidad).
+# Añade una fila por registro cuyo persona_id quieras fijar a mano. Ejemplo:
+# R1234,P0001,Mismo jugador cedido a mitad de temporada
+registro_id,persona_id,nota
