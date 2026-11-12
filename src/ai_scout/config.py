@@ -107,7 +107,7 @@ VEREDICTOS = {
 # respalden). Se comparan sin tildes y en minúsculas.
 TERMINOS_SIN_RESPALDO = [
     "lesion", "salario", "sueldo", "contrato", "precio", "traspaso", "valor de mercado",
-    "velocidad", "fisic", "personalidad", "mentalidad", "liderazgo", "bajo presion",
+    "velocidad", "fisico", "personalidad", "mentalidad", "liderazgo", "bajo presion",
     "mapa de calor", "estado de forma", "lectura de juego",
 ]
 
