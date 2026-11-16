@@ -3,9 +3,14 @@ pandas>=2.1
 numpy>=1.26
 python-dotenv>=1.0
 
-# Aplicación web y gráficos
-streamlit>=1.40
+# Recomendador: estilos de juego (k-means, PCA) y aprendizaje de pesos (optimización)
+scikit-learn>=1.5
+scipy>=1.11
+
+# Aplicación web, gráficos e informe en PDF
+streamlit>=1.52
 plotly>=5.20
+fpdf2>=2.7
 
 # Modelos de lenguaje (basta con el del proveedor que uses)
 anthropic>=0.40       # Claude
