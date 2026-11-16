@@ -70,3 +70,15 @@ def datos_reales(tmp_path_factory):
     destino = tmp_path_factory.mktemp("procesado")
     df, incidencias, manifiesto = datos.preparar_desde_csv(C.RUTA_CSV, destino)
     return df, incidencias, manifiesto
+
+
+@pytest.fixture(autouse=True)
+def salidas_aisladas(tmp_path, monkeypatch):
+    """Ninguna prueba lee ni escribe en la carpeta salidas/ real (valoraciones, historial, CSV)."""
+    monkeypatch.setattr(C, "DIR_SALIDAS", tmp_path / "salidas")
+
+
+@pytest.fixture(scope="session")
+def estilos_reales(datos_reales):
+    from ai_scout import estilos
+    return estilos.calcular_estilos(datos_reales[0])
