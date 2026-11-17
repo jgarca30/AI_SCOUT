@@ -151,8 +151,10 @@ def test_peticion_en_lenguaje_natural_con_ia(datos_app, con_llm_simulado):
     assert at.selectbox(key="f_destino").value == "Barcelona" and "Encaje en la plantilla" in [t.label for t in at.tabs]
     # El formulario queda relleno con lo interpretado y se explica lo que se ha entendido
     assert at.selectbox(key="f_rol").value == "creador" and at.checkbox(key="f_limitar_edad").value
-    entendido = [i.value for i in at.info if "He entendido" in i.value]
-    assert entendido and "zurdo" in entendido[0] and "Creador / mediapunta" in entendido[0]
+    assert not any("He entendido" in i.value for i in at.info)            # sin mensajes en primera persona
+    peticion = [c.value for c in at.caption if c.value.startswith("Petición:")]
+    assert peticion and "un creador zurdo" in peticion[0] and "zurdo" in peticion[0].split("»", 1)[1]
+    assert any("Creador / mediapunta" in m.value for m in at.markdown)
     assert all(p.llamadas == 1 for p in con_llm_simulado.values())
 
 

@@ -616,23 +616,25 @@ def _descargas(resultado: dict, estrellas: dict[str, int]) -> None:
 
 
 def _mostrar_interpretacion(resultado: dict | None) -> None:
+    """Solo avisa cuando la petición en lenguaje natural no ha permitido lanzar la búsqueda."""
     info = st.session_state.get("interpretacion")
-    if not info:
+    if info and not info["encontrado"]:
+        st.error("No se ha identificado al jugador de referencia en la petición. Escribe su nombre o elígelo en "
+                 "la barra lateral."
+                 + "".join(f"\n- {n}" for n in info["notas"] if "jugador de referencia" not in n))
+
+
+def _peticion_original(consulta: dict) -> None:
+    """Petición en lenguaje natural y matices de su interpretación, discretos bajo la cabecera."""
+    if not consulta.get("texto_original"):
         return
-    if not info["encontrado"]:
-        st.error("No he podido lanzar la búsqueda a partir de tu petición:\n\n"
-                 + "\n".join(f"- {n}" for n in info["notas"])
-                 + "\n\nEscribe el nombre del jugador de referencia o elígelo en la barra lateral.")
-        return
-    if resultado is None or resultado["consulta"]["consulta_id"] != info["consulta_id"]:
-        return
-    origen = "Secretario técnico, con modelo de lenguaje" if info["origen"] == "llm" else "intérprete por reglas"
-    texto = f"**He entendido** ({origen}): {info['resumen']}."
-    if info["notas"]:
-        texto += "\n\n" + "\n".join(f"- {n}" for n in info["notas"])
-    if info["alternativas"]:
-        texto += "\n\nOtros jugadores que encajan con el nombre: " + "; ".join(info["alternativas"][:3]) + "."
-    st.info(texto, icon=":material/chat:")
+    info = st.session_state.get("interpretacion") or {}
+    partes = [f"Petición: «{consulta['texto_original']}»"]
+    if info.get("consulta_id") == consulta["consulta_id"]:
+        partes += [n.rstrip(".") for n in info.get("notas", [])]
+        if info.get("alternativas"):
+            partes.append("otros jugadores con ese nombre: " + "; ".join(info["alternativas"][:3]))
+    st.caption(" · ".join(partes))
 
 
 def _mostrar(resultado: dict, modelos: dict, tabla_estilos: pd.DataFrame) -> None:
@@ -644,8 +646,9 @@ def _mostrar(resultado: dict, modelos: dict, tabla_estilos: pd.DataFrame) -> Non
     obj = rec["objetivo"]
     st.header(f"Sustitutos para {obj['nombre']}")
     st.caption(comun.ficha_jugador(obj))
+    _peticion_original(consulta)
 
-    filtros = [", ".join(consulta["ligas_permitidas"]), f"≥ {fmt(consulta['minutos_minimos'], 0)} min"]
+    filtros =[", ".join(consulta["ligas_permitidas"]), f"≥ {fmt(consulta['minutos_minimos'], 0)} min"]
     if consulta["edad_maxima"] is not None:
         filtros.append(f"≤ {consulta['edad_maxima']} años")
     if consulta.get("solo_mismo_estilo"):
