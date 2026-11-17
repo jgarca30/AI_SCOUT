@@ -1,4 +1,4 @@
-"""Agente 3 · Director deportivo (LLM) y ficha de respaldo por plantilla.
+"""Director deportivo (LLM) y ficha de respaldo por plantilla.
 
 Redacta la ficha de ojeador del Top final a partir del ranking YA calculado.
 No puede añadir candidatos, cambiar el orden ni citar cifras que no estén en los datos que recibe. 
@@ -11,8 +11,9 @@ import re
 
 from . import config as C
 from .analista import _textos_con_terminos_prohibidos, r2
+from .redaccion import pulir, pulir_lista
 
-SISTEMA = f"""Eres el Agente 3 (director deportivo) de AI Scout, un recomendador académico de futbolistas.
+SISTEMA = f"""Eres el Director deportivo de AI Scout, un recomendador académico de futbolistas.
 Recibes un ranking YA CALCULADO de candidatos para sustituir a un jugador de referencia, con sus estadísticas
 y el análisis previo de otro agente. Debes redactar una ficha de ojeador breve para cada candidato.
 
@@ -27,11 +28,18 @@ Reglas obligatorias:
 5. "veredicto" debe ser uno de: {", ".join(C.VEREDICTOS)}.
 6. En los textos refiérete a cada jugador por su "nombre", nunca por su identificador (R0000): el
    identificador solo va en el campo "candidato_registro_id".
-7. Responde ÚNICAMENTE con un objeto JSON con este formato:
+7. "pesos_variables" indica la importancia de cada variable en esta búsqueda (1 = normal): céntrate en
+   las de mayor peso. Puedes citar el "rol_buscado" y el "estilo" de juego tal como aparecen en los datos.
+   Si hay "encaje_en_la_plantilla" (nota de 0 a 100 del Analista de plantilla), tenlo en cuenta.
+8. En "reservas" escribe una o dos cautelas propias de ESE candidato que se vean en los datos (pocos minutos,
+   edad no registrada, otro estilo de juego, una diferencia grande en una variable de mucho peso…). No repitas
+   en cada ficha la lista de lo que no está en los datos: eso va una sola vez en "limitaciones_generales".
+9. Responde ÚNICAMENTE con un objeto JSON con este formato:
 {{"resumen_consulta": "2-3 frases", "limitaciones_generales": ["..."],
   "candidatos": [{{"candidato_registro_id": "R0000", "resumen": "1-2 frases", "fortalezas": ["..."],
      "diferencias_relevantes": ["..."], "reservas": ["..."], "veredicto": "candidato_para_revisar"}}]}}
-Escribe en español, con tono profesional y frases cortas."""
+Escribe en español correcto, con todas sus tildes y la letra ñ (por ejemplo «búsqueda», «años», «participación», «más»), con tono profesional y frases cortas.
+Nombra las variables por su descripción («regates completados»), nunca por su código («Succ_p90»)."""
 
 _LISTA_TEXTOS = {"type": "array", "items": {"type": "string"}}
 
@@ -66,21 +74,27 @@ def construir_payload(recuperacion: dict, ranking: list[dict], consulta, modo_ra
         },
         "modo_ranking": modo_ranking,
         "nota_indices": "indice_similitud y score_final van de 0 a 100 y miden parecido estadístico, no éxito.",
+        "rol_buscado": recuperacion.get("rol_nombre"),
+        "club_de_destino": getattr(consulta, "equipo_destino", None),
         "variables": {v: C.VARIABLES[v][0] for v in variables},
+        "pesos_variables": {v: round(recuperacion.get("pesos", {}).get(v, 1.0), 2) for v in variables},
         "referencia": {
             "nombre": obj["nombre"], "equipo": obj["equipo"], "liga": obj["liga"],
             "posicion": obj["posicion_original"], "edad_registrada": obj["edad_registrada"],
-            "minutos": obj["minutos"], "valores": {v: r2(obj["valores"][v]) for v in variables},
+            "minutos": obj["minutos"], "estilo": obj.get("estilo"),
+            "valores": {v: r2(obj["valores"][v]) for v in variables},
         },
         "candidatos": [{
             "candidato_registro_id": c["registro_id"], "ranking_final": c["ranking_final"],
             "nombre": c["nombre"], "equipo": c["equipo"], "liga": c["liga"], "posicion": c["posicion_original"],
-            "edad_registrada": c["edad_registrada"], "minutos": c["minutos"],
+            "edad_registrada": c["edad_registrada"], "minutos": c["minutos"], "estilo": c.get("estilo"),
             "indice_similitud": round(c["score_numerico"], 1),
             "score_final": round(c["score_final"], 1),
             "valores": {v: r2(c["valores"][v]) for v in variables},
             "analisis_previo": {k: c.get("analisis", {}).get(k) for k in ("semejanzas", "diferencias", "resumen")}
             if c.get("analisis") else None,
+            "encaje_en_la_plantilla": {"nota": round(c["score_plantilla"], 1),
+                                       "comentario": c["plantilla"]["comentario"]} if c.get("plantilla") else None,
         } for c in ranking],
         "limitaciones_conocidas": C.LIMITACIONES_GENERALES,
     }
@@ -170,8 +184,9 @@ def validar_respuesta(datos: dict, payload: dict) -> tuple[dict | None, list[str
         if malas:
             errores.append(f"{cid}: cifras que no aparecen en los datos: {', '.join(str(m) for m in malas[:5])}.")
         textos_globales += todos
-        fichas[cid] = {k: item.get(k) for k in ("resumen", "fortalezas", "diferencias_relevantes", "reservas",
-                                                   "veredicto")}
+        fichas[cid] = {"resumen": pulir(item.get("resumen")), "fortalezas": pulir_lista(item.get("fortalezas")),
+                       "diferencias_relevantes": pulir_lista(item.get("diferencias_relevantes")),
+                       "reservas": pulir_lista(item.get("reservas")), "veredicto": item.get("veredicto")}
         fichas[cid]["origen"] = "llm"
     faltan = [c for c in esperados if c not in fichas]
     if faltan:
@@ -191,7 +206,8 @@ def validar_respuesta(datos: dict, payload: dict) -> tuple[dict | None, list[str
         errores.append("resumen_consulta: afirma aspectos que no están en los datos.")
     if errores:
         return None, errores
-    return {"resumen_consulta": resumen, "limitaciones_generales": limitaciones, "fichas": fichas}, []
+    return {"resumen_consulta": pulir(resumen), "limitaciones_generales": pulir_lista(limitaciones),
+            "fichas": fichas}, []
 
 
 def fmt(x: float, dec: int = 2) -> str:
@@ -205,8 +221,10 @@ def _texto_variable(d: dict) -> str:
 
 def ficha_plantilla(candidato: dict) -> dict:
     """Ficha construida solo con las métricas (sin LLM)."""
-    difs = sorted(candidato["diferencias"], key=lambda d: abs(d["z_diferencia"]))
-    cercanas, lejanas = difs[:2], difs[-2:][::-1]
+    # Solo cuentan las variables con peso en esta búsqueda; las diferencias se ponderan por ese peso
+    con_peso = [d for d in candidato["diferencias"] if d.get("peso", 1.0) > 0] or candidato["diferencias"]
+    cercanas = sorted(con_peso, key=lambda d: (abs(d["z_diferencia"]), -d.get("peso", 1.0)))[:2]
+    lejanas = sorted(con_peso, key=lambda d: -abs(d["z_diferencia"]) * d.get("peso", 1.0))[:2]
     score = candidato["score_numerico"]
     # Umbrales orientativos sobre el índice de similitud
     if score >= 85:

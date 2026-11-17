@@ -163,8 +163,17 @@ class ProveedorSimulado:
                             tokens_salida=len(texto) // 4, duracion_ms=1)
 
 
+def esquema_de(rol: str) -> dict | None:
+    """Esquema JSON de la respuesta del agente (para la salida estructurada)."""
+    from . import analista, critico, director, encaje, interprete  # importación local para evitar ciclos
+
+    modulos = {"interprete": interprete, "analista": analista, "plantilla": encaje, "director": director,
+               "critico": critico}
+    return modulos[rol].ESQUEMA_RESPUESTA if rol in modulos else None
+
+
 def crear_proveedor(rol: str) -> ProveedorLLM | None:
-    """Crea el proveedor configurado para un rol ('analista' o 'director'), o None si no hay."""
+    """Crea el proveedor configurado para un agente (uno de config.ROLES_LLM), o None si no hay."""
     proveedor = C.LLM_PROVEEDOR
     if proveedor in ("", "ninguno", "none"):
         return None
@@ -179,9 +188,7 @@ def crear_proveedor(rol: str) -> ProveedorLLM | None:
             clave = C.entorno("GEMINI_API_KEY") or C.entorno("GOOGLE_API_KEY")
             if not clave:
                 return None
-            from . import analista, director  # importación local para evitar ciclos
-            esquema = (analista if rol == "analista" else director).ESQUEMA_RESPUESTA
-            return ProveedorGemini(modelo, clave, esquema=esquema)
+            return ProveedorGemini(modelo, clave, esquema=esquema_de(rol))
     except ImportError:
         return None
     return None
@@ -189,15 +196,13 @@ def crear_proveedor(rol: str) -> ProveedorLLM | None:
 
 def descripcion_configuracion() -> str:
     """Texto breve para la app: qué proveedor y modelos se usarán."""
-    a, d = crear_proveedor("analista"), crear_proveedor("director")
-    if not a and not d:
+    activos = {rol: p for rol in C.ROLES_LLM if (p := crear_proveedor(rol)) is not None}
+    if not activos:
         return "Sin modelo de lenguaje configurado (modo numérico)."
-    partes = []
-    if a:
-        partes.append(f"Analista: {a.nombre}/{a.modelo}")
-    if d:
-        partes.append(f"Director: {d.nombre}/{d.modelo}")
-    return " · ".join(partes)
+    modelos = {f"{p.nombre}/{p.modelo}" for p in activos.values()}
+    if len(modelos) == 1:
+        return f"Modelo de los agentes: {modelos.pop()}"
+    return " · ".join(f"{rol.capitalize()}: {p.nombre}/{p.modelo}" for rol, p in activos.items())
 
 
 

@@ -1,4 +1,4 @@
-"""Agente 2 · Analista de perfiles (LLM).
+"""Analista de rendimiento (LLM).
 
 Compara cada candidato del Top 10 con el jugador de referencia usando SOLO los
 datos que recibe. 
@@ -12,10 +12,11 @@ import math
 
 from . import config as C
 from .datos import normalizar_texto
+from .redaccion import pulir, pulir_lista
 
 TOLERANCIA_VALOR = 0.011  # los valores se envían redondeados a 2 decimales
 
-SISTEMA = f"""Eres el Agente 2 (analista de perfiles) de AI Scout, un recomendador académico de futbolistas.
+SISTEMA = f"""Eres el Analista de rendimiento de AI Scout, un recomendador académico de futbolistas.
 Recibes las estadísticas de un jugador de REFERENCIA y de varios CANDIDATOS del mismo grupo de posición.
 Tu tarea es valorar, para cada candidato, cuánto se parece su perfil estadístico al de la referencia.
 
@@ -32,13 +33,16 @@ Reglas obligatorias:
 5. Formula las inferencias como hipótesis compatibles con los indicadores, no como hechos.
 6. Incluye exactamente a todos los candidatos recibidos, identificados por "candidato_registro_id".
    No añadas candidatos.
-7. Responde ÚNICAMENTE con un objeto JSON con este formato:
+7. "pesos_variables" indica la importancia de cada variable en esta búsqueda (1 = normal). Da más
+   importancia a las coincidencias y diferencias en las variables de mayor peso.
+8. Responde ÚNICAMENTE con un objeto JSON con este formato:
 {{"candidatos": [{{"candidato_registro_id": "R0000", "estado": "evaluado" | "no_evaluable",
   "dimensiones": [{{"nombre": "progresion_creacion", "puntuacion": 0-4 o null,
      "evidencias": [{{"variable": "PrgP_p90", "valor_objetivo": 0.0, "valor_candidato": 0.0}}],
      "justificacion": "frase breve"}}],
   "semejanzas": ["..."], "diferencias": ["..."], "limitaciones": ["..."], "resumen": "una o dos frases"}}]}}
-Escribe los textos en español."""
+Escribe los textos en español correcto, con todas sus tildes y la letra ñ (por ejemplo «búsqueda», «años», «participación», «más»).
+En los textos nombra las variables por su descripción («pases clave»), nunca por su código («KP_p90»)."""
 
 _LISTA_TEXTOS = {"type": "array", "items": {"type": "string"}}
 
@@ -84,6 +88,7 @@ def construir_payload(recuperacion: dict) -> dict:
         "variables": [{"variable": v, "descripcion": C.VARIABLES[v][0], "unidad": C.VARIABLES[v][1]}
                       for v in variables],
         "nota_percentiles": "Percentil dentro de los jugadores del mismo grupo con los minutos mínimos (0-100).",
+        "pesos_variables": {v: round(recuperacion.get("pesos", {}).get(v, 1.0), 2) for v in variables},
         "referencia": {
             "id": "REFERENCIA", "minutos": obj["minutos"],
             "valores": {v: r2(obj["valores"][v]) for v in variables},
@@ -119,7 +124,7 @@ def _es_numero(x) -> bool:
 
 
 def validar_respuesta(datos: dict, payload: dict) -> tuple[dict | None, list[str]]:
-    """Valida la salida del Agente 2. Devuelve (análisis por candidato, errores)."""
+    """Valida la salida del Analista de rendimiento. Devuelve (análisis por candidato, errores)."""
     errores: list[str] = []
     lista = datos.get("candidatos")
     if not isinstance(lista, list):
@@ -211,9 +216,10 @@ def validar_respuesta(datos: dict, payload: dict) -> tuple[dict | None, list[str
         analisis[cid] = {
             "estado_analisis": "evaluado" if evaluable else "no_evaluable",
             "score_cualitativo": score,
-            "dimensiones": dims,
-            "semejanzas": item["semejanzas"], "diferencias": item["diferencias"],
-            "limitaciones": item["limitaciones"], "resumen": item.get("resumen", ""),
+            "dimensiones": [{**d, "justificacion": pulir(d.get("justificacion", ""))} if isinstance(d, dict) else d
+                            for d in dims],
+            "semejanzas": pulir_lista(item["semejanzas"]), "diferencias": pulir_lista(item["diferencias"]),
+            "limitaciones": pulir_lista(item["limitaciones"]), "resumen": pulir(item.get("resumen", "")),
         }
 
     faltan = set(esperados) - vistos

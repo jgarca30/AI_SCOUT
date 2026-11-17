@@ -92,3 +92,60 @@ def error_api(transitorio: bool):
     def f(sistema, usuario):
         raise ErrorLLM("fallo simulado", "http_503" if transitorio else "http_401", transitorio=transitorio)
     return f
+
+
+# ---- Jefe de scouting (revisor) ----
+def critico_aprueba(sistema: str, usuario: str) -> str:
+    p = payload(usuario)
+    return json.dumps({"revisiones": [{"candidato_registro_id": c["candidato_registro_id"], "aprobada": True,
+                                       "problemas": []} for c in p["fichas"]["candidatos"]],
+                       "valoracion_global": "Fichas coherentes con los datos."}, ensure_ascii=False)
+
+
+def critico_rechaza_primera(sistema: str, usuario: str) -> str:
+    datos = json.loads(critico_aprueba(sistema, usuario))
+    datos["revisiones"][0].update(aprobada=False, problemas=["La fortaleza citada no concuerda con los valores."])
+    return json.dumps(datos, ensure_ascii=False)
+
+
+def critico_cifra_inventada(sistema: str, usuario: str) -> str:
+    datos = json.loads(critico_aprueba(sistema, usuario))
+    datos["revisiones"][0].update(aprobada=False, problemas=["Dice 12,34 pases cuando el dato es 987,65."])
+    return json.dumps(datos, ensure_ascii=False)
+
+
+def critico_incoherente(sistema: str, usuario: str) -> str:
+    datos = json.loads(critico_aprueba(sistema, usuario))
+    datos["revisiones"][0]["problemas"] = ["Aprobada pero con un problema."]
+    return json.dumps(datos, ensure_ascii=False)
+
+
+def director_corregido(sistema: str, usuario: str) -> str:
+    """Segunda versión del director tras las observaciones del revisor."""
+    datos = json.loads(director_valido(sistema, usuario))
+    for ficha in datos["candidatos"]:
+        ficha["fortalezas"] = ["Versión corregida tras la revisión."]
+    return json.dumps(datos, ensure_ascii=False)
+
+
+# ---- Secretario técnico (intérprete) ----
+def interprete(**campos):
+    base = {"jugador_referencia": None, "equipo_referencia": None, "ligas": [], "edad_maxima": None,
+            "minutos_minimos": None, "rol": None, "solo_mismo_estilo": False, "no_aplicable": []}
+    base.update(campos)
+    return lambda sistema, usuario: json.dumps(base, ensure_ascii=False)
+
+
+# ---- Analista de plantilla ----
+def plantilla_valida(sistema: str, usuario: str, encaje: int = 3) -> str:
+    p = payload(usuario)
+    return json.dumps({"diagnostico_plantilla": "La línea pierde a su jugador de referencia.",
+                       "candidatos": [{"candidato_registro_id": c["candidato_registro_id"], "encaje": encaje,
+                                       "comentario": "Encaje razonable según los indicadores."}
+                                      for c in p["candidatos"]]}, ensure_ascii=False)
+
+
+def plantilla_invalida(sistema: str, usuario: str) -> str:
+    datos = json.loads(plantilla_valida(sistema, usuario))
+    datos["candidatos"][0]["encaje"] = 9
+    return json.dumps(datos, ensure_ascii=False)
