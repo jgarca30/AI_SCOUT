@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64">
+  <circle cx="32" cy="32" r="30" fill="#3fa34d"/>
+  <circle cx="32" cy="32" r="21" fill="#ffffff"/>
+  <polygon points="32,22 41.5,28.9 37.9,40.1 26.1,40.1 22.5,28.9" fill="#1d5a2b"/>
+  <g stroke="#1d5a2b" stroke-width="2.4" stroke-linecap="round">
+    <line x1="32" y1="22" x2="32" y2="11.5"/><line x1="41.5" y1="28.9" x2="51.5" y2="25.7"/>
+    <line x1="37.9" y1="40.1" x2="44" y2="48.6"/><line x1="26.1" y1="40.1" x2="20" y2="48.6"/>
+    <line x1="22.5" y1="28.9" x2="12.5" y2="25.7"/>
+  </g>
+  <text x="74" y="43" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="32" font-weight="700"
+        fill="#3fa34d">AI Scout</text>
+</svg>

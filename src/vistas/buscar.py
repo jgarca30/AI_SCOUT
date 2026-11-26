@@ -11,7 +11,7 @@ from ai_scout.modelos import Consulta, nuevo_id_consulta
 from ai_scout.redaccion import restaurar_tildes
 from ai_scout.similitud import pesos_de_rol
 
-from . import comun
+from . import comun, decoracion
 from .comun import fmt
 
 NOMBRE_FASE = {
@@ -24,6 +24,8 @@ EJEMPLOS = [
     "Extremo regateador parecido a Lamine Yamal, sub-23, que no sea de La Liga",
     "Relevo para Modric menor de 26 años con al menos 1500 minutos",
 ]
+# Referencias conocidas para los cromos de la portada (una de cada línea, salvo porteros)
+CROMOS = ["Pedri", "Lamine Yamal", "Jude Bellingham", "Virgil van Dijk", "Erling Haaland"]
 EDAD_MIN, EDAD_MAX = 16, 40
 MINUTOS_MIN, MINUTOS_MAX = 90, 3420
 DIVERSIDAD_MAX = 0.6
@@ -281,34 +283,65 @@ def _ejecutar(consulta: Consulta, df: pd.DataFrame, manifiesto: dict, modelos: d
 # --------------------------------------------------------------------------
 # Portada
 # --------------------------------------------------------------------------
-def _portada(manifiesto: dict, modelos: dict) -> None:
+def _buscar_referencia(registro_id: str, equipo: str) -> None:
+    """Botón de un cromo: busca sustitutos del jugador con los filtros que haya ahora en el formulario."""
+    s = st.session_state
+    s.pop("interpretacion", None)
+    s["formulario_pendiente"] = {
+        "objetivo_registro_id": registro_id, "equipo_destino": equipo, "usar_llm": s.get("f_ia", False),
+        "ligas_permitidas": s.get("f_ligas"), "minutos_minimos": s.get("f_minutos"),
+        "edad_maxima": s.get("f_edad") if s.get("f_limitar_edad") else None,
+        "usar_aprendizaje": s.get("f_aprendizaje", True), "ocultar_valorados": s.get("f_ocultar", False),
+        "solo_mismo_estilo": s.get("f_estilo", False), "usar_critico": s.get("f_critico", True),
+        "diversidad": s.get("f_diversidad", 0.0)}
+    s["ejecutar_pendiente"] = {}
+
+
+def _cromos(df: pd.DataFrame, tabla_estilos: pd.DataFrame) -> list[dict]:
+    """Jugadores de los cromos de la portada (el registro con más minutos de cada nombre que esté en el dataset)."""
+    validos = df[~df["es_portero"] & df["valido"]]
+    estilo = dict(zip(tabla_estilos["registro_id"], tabla_estilos["estilo"]))
+    cromos = []
+    for nombre in CROMOS:
+        filas = validos[validos["nombre"] == nombre]
+        if not filas.empty:
+            j = filas.sort_values("minutos", ascending=False).iloc[0].to_dict()
+            cromos.append({**j, "estilo": estilo.get(j["registro_id"])})
+    return cromos
+
+
+def _portada(df: pd.DataFrame, manifiesto: dict, modelos: dict, tabla_estilos: pd.DataFrame) -> None:
     st.header("Encuentra sustitutos con un perfil estadístico parecido")
     st.markdown(
         "1. Elige un **jugador de referencia** en la barra lateral (o descríbelo con tus palabras).\n"
         "2. Elige el **rol** que buscas y ajusta las ligas, la edad máxima y los minutos mínimos.\n"
         "3. Pulsa **Buscar sustitutos** y **valora con estrellas** a los candidatos: el sistema aprende de ti.")
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Registros en el dataset", fmt(manifiesto["filas"], 0))
-    c2.metric("Jugadores de campo válidos", fmt(manifiesto["registros_validos_campo"], 0))
-    c3.metric("Estilos de juego", sum(m.k for m in modelos.values()))
-    c4.metric("Versión del dataset", manifiesto["dataset_version"])
-    st.subheader("Prueba con una petición en lenguaje natural")
+    decoracion.tarjetas_cifras([
+        ("groups", fmt(manifiesto["registros_validos_campo"], 0), "jugadores de campo"),
+        ("stadium", fmt(df["equipo"].nunique(), 0), "equipos"),
+        ("scatter_plot", str(sum(m.k for m in modelos.values())), "estilos de juego"),
+        ("smart_toy", str(len(decoracion.AGENTES)), "agentes"),
+    ])
+
+    cromos = _cromos(df, tabla_estilos)
+    if cromos:
+        st.subheader("Empieza por un jugador conocido")
+        for i, (columna, jugador) in enumerate(zip(st.columns(len(cromos)), cromos)):
+            with columna.container(key=f"tarjeta_cromo_{i}"):
+                decoracion.cromo(jugador)
+                st.button("Ver sustitutos", key=f"cromo_boton_{i}", icon=":material/search:", width="stretch",
+                          on_click=_buscar_referencia, args=(jugador["registro_id"], jugador["equipo"]))
+
+    st.subheader("O pídelo en lenguaje natural")
     columnas = st.columns(len(EJEMPLOS))
     for columna, ejemplo in zip(columnas, EJEMPLOS):
         columna.button(ejemplo, on_click=_pedir_interpretacion, args=(ejemplo,), width="stretch", wrap=True)
+
     st.subheader("Cómo funciona")
-    st.markdown(
-        "- **Secretario técnico**: convierte una petición en lenguaje natural en los filtros de la búsqueda.\n"
-        "- **Ojeador de datos**: similitud coseno ponderada por el rol sobre las estadísticas por "
-        "90 minutos → preselección de 10 candidatos. Aplica lo aprendido de tus valoraciones.\n"
-        "- **Analista de rendimiento**: valora a los 10 candidatos con un modelo de lenguaje, usando "
-        "solo los datos (anonimizados).\n"
-        "- **Analista de plantilla**: valora cómo encajaría cada candidato en la plantilla del club de destino "
-        "y esa nota pondera la puntuación final.\n"
-        "- **Director deportivo**: redacta la ficha de ojeador de los tres mejores.\n"
-        "- **Jefe de scouting**: comprueba las fichas y, si hay errores, pide una corrección.\n\n"
-        "Si un modelo de lenguaje falla, la consulta termina igualmente en **modo numérico**. "
-        "Cada consulta se guarda en `salidas/` para el cuadro de mando de Power BI y en el **Historial**.")
+    decoracion.cadena_agentes()
+    st.caption("Si un modelo de lenguaje falla, la consulta termina igualmente en **modo numérico**. Cada consulta "
+               "se guarda en `salidas/` para el cuadro de mando de Power BI y en el **Historial**. "
+               f"Dataset {manifiesto['dataset_version']} · {fmt(manifiesto['filas'], 0)} registros.")
 
 
 # --------------------------------------------------------------------------
@@ -717,6 +750,11 @@ def _mostrar(resultado: dict, modelos: dict, tabla_estilos: pd.DataFrame) -> Non
 # Página
 # --------------------------------------------------------------------------
 def pagina() -> None:
+    # La cabecera no depende de los datos: se dibuja antes de cargarlos para que el arranque no se vea vacío
+    cabecera = st.empty()
+    if st.session_state.get("resultado") is None:
+        with cabecera.container():
+            decoracion.cabecera()
     df, manifiesto, modelos, tabla_estilos, proveedores = comun.contexto()
     hay_llm = proveedores.get("analista") is not None or proveedores.get("director") is not None
     _valores_iniciales(hay_llm)
@@ -740,6 +778,7 @@ def pagina() -> None:
     resultado = st.session_state.get("resultado")
     _mostrar_interpretacion(resultado)
     if resultado is None:
-        _portada(manifiesto, modelos)
+        _portada(df, manifiesto, modelos, tabla_estilos)
     else:
+        cabecera.empty()
         _mostrar(resultado, modelos, tabla_estilos)

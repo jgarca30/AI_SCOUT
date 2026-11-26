@@ -1,0 +1,7 @@
+# Tema de AI Scout: verde césped como color principal. Se define para el modo claro y el oscuro, así la app
+# sigue respetando el modo del sistema (y el selector de tema del menú de Streamlit).
+[theme.light]
+primaryColor = "#3fa34d"
+
+[theme.dark]
+primaryColor = "#4cb85a"

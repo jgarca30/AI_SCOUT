@@ -9,9 +9,11 @@ import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from vistas import aprendizaje, buscar, estilos_de_juego, evaluacion, historial  # noqa: E402
+from vistas import aprendizaje, buscar, decoracion, estilos_de_juego, evaluacion, historial  # noqa: E402
 
-st.set_page_config(page_title="AI Scout", page_icon="⚽", layout="wide")
+st.set_page_config(page_title="AI Scout", page_icon=str(decoracion.ICONO), layout="wide")
+decoracion.estilos()
+decoracion.logo()
 
 paginas = {
     "buscar": st.Page(buscar.pagina, title="Buscar sustitutos", icon=":material/search:", url_path="buscar",
@@ -27,6 +29,4 @@ paginas = {
 st.session_state["paginas"] = paginas   # para cambiar de página desde el código (st.switch_page)
 
 pagina = st.navigation(list(paginas.values()))
-with st.sidebar:
-    st.title("⚽ AI Scout")
 pagina.run()
