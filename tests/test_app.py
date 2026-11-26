@@ -95,6 +95,16 @@ def test_portada_sin_modelo_de_lenguaje(datos_app, sin_llm):
     assert any("modo numérico" in c.value for c in at.sidebar.caption)
 
 
+def test_cromo_de_la_portada_lanza_la_busqueda(datos_app, sin_llm):
+    from vistas.buscar import CROMOS
+    at = AppTest.from_function(pagina_buscar, default_timeout=ESPERA).run()
+    assert len([b for b in at.button if b.label == "Ver sustitutos"]) == len(CROMOS)
+    at.button(key=f"cromo_boton_{CROMOS.index('Erling Haaland')}").click().run()
+    assert not at.exception, at.exception
+    assert at.header[0].value == "Sustitutos para Erling Haaland"
+    assert at.selectbox(key="f_destino").value == "Manchester City"      # su club, como destino
+
+
 def test_busqueda_numerica_con_rol_del_grupo(datos_app, sin_llm):
     at = AppTest.from_function(pagina_buscar, default_timeout=ESPERA).run()
     at.selectbox(key="f_objetivo").set_value(registro(datos_app, "Erling Haaland")).run()
