@@ -1,0 +1,280 @@
+<mxfile host="65bd71144e">
+    <diagram name="diagrama_secuencia" id="diagrama_secuencia">
+        <mxGraphModel dx="705" dy="386" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1840" pageHeight="1508" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="v3_1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=18;" value="&lt;b&gt;AI SCOUT 3.0&amp;nbsp;&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="30" width="1770" x="30" y="5" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_2" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Usuario" vertex="1">
+                    <mxGeometry height="1408" width="130" x="30" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_3" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="App Streamlit" vertex="1">
+                    <mxGeometry height="1408" width="130" x="320" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_4" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Secretario técnico" vertex="1">
+                    <mxGeometry height="1408" width="130" x="470" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_5" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Orquestador" vertex="1">
+                    <mxGeometry height="1408" width="130" x="620" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_6" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Aprendizaje" vertex="1">
+                    <mxGeometry height="1408" width="130" x="770" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_7" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Ojeador de datos" vertex="1">
+                    <mxGeometry height="1408" width="130" x="920" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_8" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Analista de rendimiento" vertex="1">
+                    <mxGeometry height="1408" width="130" x="1070" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_9" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Analista de plantilla" vertex="1">
+                    <mxGeometry height="1408" width="130" x="1220" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_10" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Director deportivo" vertex="1">
+                    <mxGeometry height="1408" width="130" x="1370" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_11" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Jefe de scouting" vertex="1">
+                    <mxGeometry height="1408" width="130" x="1520" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_12" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Exportador" vertex="1">
+                    <mxGeometry height="1408" width="130" x="1670" y="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_13" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;fontColor=#000000;" value="abrir la aplicación">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="95" y="154" as="sourcePoint"/>
+                        <mxPoint x="385" y="154" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_14" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;fontColor=#000000;" value="cabecera de la portada (antes de cargar los datos)">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="385" y="188" as="sourcePoint"/>
+                        <mxPoint x="95" y="188" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_15" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;fontColor=#000000;" value="cifras, cromos, ejemplos y cadena de agentes">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="385" y="222" as="sourcePoint"/>
+                        <mxPoint x="95" y="222" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_16" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;fontColor=#000000;" value="«Ver sustitutos» en un cromo → formulario con el jugador y su club">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="95" y="278" as="sourcePoint"/>
+                        <mxPoint x="385" y="278" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_17" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;" value="">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="40" y="294" as="sourcePoint"/>
+                        <mxPoint x="590" y="294" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;align=left;fontSize=10;fontStyle=2;" value="[petición en lenguaje natural]" vertex="1">
+                    <mxGeometry height="18" width="540" x="45" y="294" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_19" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="petición en lenguaje natural">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="95" y="334" as="sourcePoint"/>
+                        <mxPoint x="385" y="334" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_20" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="interpretar(texto)">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="385" y="368" as="sourcePoint"/>
+                        <mxPoint x="535" y="368" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_21" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="jugador, filtros y club → formulario">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="535" y="402" as="sourcePoint"/>
+                        <mxPoint x="385" y="402" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_22" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;" value="">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="40" y="418" as="sourcePoint"/>
+                        <mxPoint x="590" y="418" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;align=left;fontSize=10;fontStyle=2;" value="[formulario]" vertex="1">
+                    <mxGeometry height="18" width="540" x="45" y="418" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_24" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="filtros + «Buscar sustitutos»">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="95" y="458" as="sourcePoint"/>
+                        <mxPoint x="385" y="458" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_25" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=40;height=18;boundedLbl=1;verticalAlign=top;align=left;spacingLeft=4;fontSize=10;fillColor=none;strokeColor=#1A1A1A;" value="&lt;b&gt;alt&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="234" width="550" x="30" y="238" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_26" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;align=left;fontSize=10;fontStyle=2;fontColor=#000000;" value="[cromo de un jugador destacado]" vertex="1">
+                    <mxGeometry height="18" width="500" x="85" y="238" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_27" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="ejecutar_consulta(consulta)">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="385" y="506" as="sourcePoint"/>
+                        <mxPoint x="685" y="506" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_28" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="avance de cada agente">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="540" as="sourcePoint"/>
+                        <mxPoint x="385" y="540" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_29" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="construir_personalizacion()">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="574" as="sourcePoint"/>
+                        <mxPoint x="835" y="574" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_30" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="pesos aprendidos, Rocchio, descartados">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="835" y="608" as="sourcePoint"/>
+                        <mxPoint x="685" y="608" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_31" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="recuperar_candidatos()">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="642" as="sourcePoint"/>
+                        <mxPoint x="985" y="642" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_32" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="Top 10 + evidencias">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="985" y="676" as="sourcePoint"/>
+                        <mxPoint x="685" y="676" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_33" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="analizar Top 10 (JSON)">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="732" as="sourcePoint"/>
+                        <mxPoint x="1135" y="732" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_34" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="dimensiones 0-4 (validadas)">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1135" y="766" as="sourcePoint"/>
+                        <mxPoint x="685" y="766" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_35" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=40;height=18;boundedLbl=1;verticalAlign=top;align=left;spacingLeft=4;fontSize=10;fillColor=none;" value="&lt;b&gt;alt&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="88" width="560" x="630" y="692" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_36" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;align=left;fontSize=10;fontStyle=2;" value="[análisis con IA y modelo disponible] si falla tras 1 reintento: ranking numérico" vertex="1">
+                    <mxGeometry height="18" width="510" x="675" y="692" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_37" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="indicadores + valorar encaje">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="836" as="sourcePoint"/>
+                        <mxPoint x="1285" y="836" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_38" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="encaje 0-4 + comentario">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1285" y="870" as="sourcePoint"/>
+                        <mxPoint x="685" y="870" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_39" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=40;height=18;boundedLbl=1;verticalAlign=top;align=left;spacingLeft=4;fontSize=10;fillColor=none;" value="&lt;b&gt;alt&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="88" width="710" x="630" y="796" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_40" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;align=left;fontSize=10;fontStyle=2;" value="[hay club de destino] si falla el modelo: solo indicadores" vertex="1">
+                    <mxGeometry height="18" width="660" x="675" y="796" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_41" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="redactar fichas Top 3">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="918" as="sourcePoint"/>
+                        <mxPoint x="1435" y="918" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_42" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="fichas (validadas)">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1435" y="952" as="sourcePoint"/>
+                        <mxPoint x="685" y="952" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_43" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="revisar fichas">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="986" as="sourcePoint"/>
+                        <mxPoint x="1585" y="986" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_44" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="aprobadas / problemas">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1585" y="1020" as="sourcePoint"/>
+                        <mxPoint x="685" y="1020" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_45" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="corregir con las observaciones">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="1076" as="sourcePoint"/>
+                        <mxPoint x="1435" y="1076" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_46" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="fichas corregidas">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1435" y="1110" as="sourcePoint"/>
+                        <mxPoint x="685" y="1110" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_47" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=40;height=18;boundedLbl=1;verticalAlign=top;align=left;spacingLeft=4;fontSize=10;fillColor=none;" value="&lt;b&gt;opt&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="88" width="1010" x="630" y="1036" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_48" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;align=left;fontSize=10;fontStyle=2;" value="[el Jefe de scouting rechaza alguna ficha] una sola corrección" vertex="1">
+                    <mxGeometry height="18" width="960" x="675" y="1036" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_49" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="exportar_consulta() + historial">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="1158" as="sourcePoint"/>
+                        <mxPoint x="1735" y="1158" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_50" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="resultado">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="1192" as="sourcePoint"/>
+                        <mxPoint x="385" y="1192" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_51" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" value="fichas, comparador, encaje, mapa, PDF">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="385" y="1226" as="sourcePoint"/>
+                        <mxPoint x="95" y="1226" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_52" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="valorar con estrellas">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="95" y="1260" as="sourcePoint"/>
+                        <mxPoint x="385" y="1260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_53" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="registrar valoración">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="385" y="1294" as="sourcePoint"/>
+                        <mxPoint x="1735" y="1294" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_54" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="«Recalcular»">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="95" y="1350" as="sourcePoint"/>
+                        <mxPoint x="385" y="1350" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_55" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="ejecutar_consulta(consulta) con lo aprendido">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="385" y="1384" as="sourcePoint"/>
+                        <mxPoint x="685" y="1384" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v3_56" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=40;height=18;boundedLbl=1;verticalAlign=top;align=left;spacingLeft=4;fontSize=10;fillColor=none;" value="&lt;b&gt;opt&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="88" width="700" x="40" y="1310" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3_57" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;align=left;fontSize=10;fontStyle=2;" value="[el usuario ha valorado candidatos]" vertex="1">
+                    <mxGeometry height="18" width="650" x="85" y="1310" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
