@@ -39,6 +39,17 @@ devuelve los perfiles estadísticos más parecidos de las cinco grandes ligas, e
 - **Evaluación**: verdad-terreno aproximada, coherencia con los estilos, cobertura, sensibilidad, usuarios
   simulados y registro de uso real (`python src\evaluar_sistema.py`).
 
+## Versión 3.0: interfaz renovada
+
+- **Portada decorada**: cabecera con un campo de fútbol dibujado en SVG (franjas de césped, líneas y una pizarra
+  con un 4-3-3), la temporada y las cinco ligas.
+- **Tarjetas de cifras** con icono (jugadores, equipos, estilos de juego y agentes) y la **cadena de agentes**
+  dibujada paso a paso, con flechas.
+- **Cromos de jugadores conocidos** (Pedri, Lamine Yamal, Bellingham, Van Dijk y Haaland): el botón «Ver
+  sustitutos» rellena el formulario y lanza la búsqueda con un clic.
+- **Tema propio**: verde césped como color principal, logo en la barra lateral e icono en la pestaña. Funciona
+  en modo claro y oscuro, y en el móvil.
+
 ## Estructura
 
 ```
@@ -46,9 +57,13 @@ dataset/            CSV original (Kaggle · FBref), nunca se modifica
 config/             tabla manual de identidades de jugadores
 diagramas/          diagramas UML y de dominio (Draw.io)
 memoria/            memoria del proyecto y presentación
+versiones/          copias del README y la memoria de versiones anteriores
+assets/             logo e icono de la aplicación (SVG)
+.streamlit/         tema de la aplicación (config.toml)
 src/
-  app.py              aplicación web (Streamlit): define las páginas
+  app.py              aplicación web (Streamlit): define las páginas, el logo y los estilos
   vistas/             páginas: buscar, estilos de juego, aprendizaje, historial y evaluación
+    decoracion.py     cabecera, tarjetas, cadena de agentes y cromos de la portada (HTML/CSS/SVG)
   preparar_datos.py   preparación del dataset
   evaluar_sistema.py  evaluación del recomendador
   ai_scout/
@@ -104,7 +119,8 @@ python -m pytest                  :: ejecuta las pruebas
 
 Páginas de la app:
 
-- **Buscar sustitutos**: describe lo que buscas o usa el formulario (jugador, rol, ligas, edad, minutos). El
+- **Buscar sustitutos**: la portada presenta el sistema y permite empezar desde un cromo o un ejemplo en
+  lenguaje natural. Describe lo que buscas o usa el formulario (jugador, rol, ligas, edad, minutos). El
   resultado tiene pestañas con las fichas, un comparador, el mapa de estilos, el Top 10, cómo se ha calculado y
   las trazas. Puntúa a los candidatos con estrellas y pulsa **Recalcular**. Se puede descargar el informe en PDF.
 - **Estilos de juego**: mapa de jugadores y perfil de cada estilo.
